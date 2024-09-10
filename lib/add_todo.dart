@@ -30,7 +30,6 @@ class _AddTodoState extends State<AddTodo> {
                 widget.addTodo(todoText: todoText.text);
               }
               todoText.text = "";
-              Navigator.pop(context);
             },
             child: const Text('Add Todo'))
       ],

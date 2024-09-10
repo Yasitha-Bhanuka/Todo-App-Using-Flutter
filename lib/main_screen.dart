@@ -14,6 +14,25 @@ class _MainscreenState extends State<Mainscreen> {
   List<String> todoList = [];
 
   void addTodo({required String todoText}) {
+    if (todoList.contains(todoText)) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Already Exists"),
+              content: const Text('This todo already exists!'),
+              actions: [
+                InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Close"))
+              ],
+            );
+          });
+      return;
+    }
+
     setState(() {
       todoList.insert(0, todoText);
     });
@@ -24,7 +43,6 @@ class _MainscreenState extends State<Mainscreen> {
   void updateLocalData() async {
     // obtain shared preferences
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     // Save an list of strings to 'items' key.
     prefs.setStringList('todoList', todoList);
   }
