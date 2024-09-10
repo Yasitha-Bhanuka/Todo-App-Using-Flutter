@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 // ignore: must_be_immutable
 class TodolistBuilder extends StatefulWidget {
@@ -47,11 +48,28 @@ class _TodolistBuilderState extends State<TodolistBuilder> {
         : ListView.builder(
             itemCount: widget.todoList.length,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                onTap: () {
-                  onItemClicked(index: index);
-                },
-                title: Text(widget.todoList[index]),
+              return Dismissible(
+                key: UniqueKey(),
+                direction: DismissDirection.startToEnd,
+                background: Container(
+                  color: Colors.green[300],
+                  alignment: Alignment.centerLeft,
+                  child: const Icon(FeatherIcons.check),
+                ),
+                onDismissed: (direction) => setState(() {
+                  if (direction == DismissDirection.startToEnd) {
+                    widget.todoList.removeAt(index);
+                    widget.updateLocalData();
+                  } else {
+                    print("Mark as done");
+                  }
+                }),
+                child: ListTile(
+                  onTap: () {
+                    onItemClicked(index: index);
+                  },
+                  title: Text(widget.todoList[index]),
+                ),
               );
             });
   }
