@@ -12,6 +12,8 @@ class Mainscreen extends StatefulWidget {
 class _MainscreenState extends State<Mainscreen> {
   String text = "Simple Text";
 
+  List<String> todoList = ["Drink Water", "Make Dinner", "Go to Gym"];
+
   void changeText({required String todoText}) {
     setState(() {
       text = todoText;
@@ -21,51 +23,63 @@ class _MainscreenState extends State<Mainscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(child: Text("Drawer Data")),
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Todo App'),
-        actions: [
-          InkWell(
-            splashColor: Colors.green,
-            onTap: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return Padding(
-                      padding: MediaQuery.of(context).viewInsets,
-                      child: Container(
-                        padding: const EdgeInsets.all(20),
-                        height: 300,
-                        child: AddTodo(changeText: changeText),
-                      ),
-                    );
-                  });
-            },
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              // GestureDetector is used to detect the tap on the Icon
-              // child: GestureDetector(
-              //   onTap: () {
-              //     print('Plus Icon Clicked!');
-              //   },
-              //   child: Icon(
-              //     FeatherIcons.plus,
-              //   ),
-              // ),
+        drawer: const Drawer(child: Text("Drawer Data")),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text('Todo App'),
+          actions: [
+            InkWell(
+              splashColor: Colors.green,
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Padding(
+                        padding: MediaQuery.of(context).viewInsets,
+                        child: Container(
+                          padding: const EdgeInsets.all(20),
+                          height: 300,
+                          child: AddTodo(changeText: changeText),
+                        ),
+                      );
+                    });
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                // GestureDetector is used to detect the tap on the Icon
+                // child: GestureDetector(
+                //   onTap: () {
+                //     print('Plus Icon Clicked!');
+                //   },
+                //   child: Icon(
+                //     FeatherIcons.plus,
+                //   ),
+                // ),
 
-              // InkWell is used to detect the tap on the Icon. It is similar to GestureDetector. Its provide visual feedback when the user interacts with the widget.
+                // InkWell is used to detect the tap on the Icon. It is similar to GestureDetector. Its provide visual feedback when the user interacts with the widget.
 
-              child: Icon(
-                FeatherIcons.plus,
+                child: Icon(
+                  FeatherIcons.plus,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: Container(
-        child: Text(text),
-      ),
-    );
+          ],
+        ),
+        body: ListView.builder(
+            itemCount: todoList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                title: Text(todoList[index]),
+                leading: const Icon(FeatherIcons.checkCircle),
+                trailing: IconButton(
+                  icon: const Icon(FeatherIcons.trash),
+                  onPressed: () {
+                    setState(() {
+                      todoList.removeAt(index);
+                    });
+                  },
+                ),
+              );
+            }));
   }
 }
