@@ -10,14 +10,13 @@ class Mainscreen extends StatefulWidget {
 }
 
 class _MainscreenState extends State<Mainscreen> {
-  String text = "Simple Text";
-
   List<String> todoList = ["Drink Water", "Make Dinner", "Go to Gym"];
 
-  void changeText({required String todoText}) {
+  void addTodo({required String todoText}) {
     setState(() {
-      text = todoText;
+      todoList.insert(0, todoText);
     });
+    Navigator.pop(context);
   }
 
   @override
@@ -39,7 +38,7 @@ class _MainscreenState extends State<Mainscreen> {
                         child: Container(
                           padding: const EdgeInsets.all(20),
                           height: 300,
-                          child: AddTodo(changeText: changeText),
+                          child: AddTodo(addTodo: addTodo),
                         ),
                       );
                     });
