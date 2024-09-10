@@ -17,6 +17,12 @@ class _AddTodoState extends State<AddTodo> {
       children: [
         const Text('Add Todo'),
         TextField(
+          onSubmitted: (value) {
+            if (todoText.text != "") {
+              widget.addTodo(todoText: todoText.text);
+            }
+            todoText.text = "";
+          },
           autofocus: true,
           controller: todoText,
           decoration: const InputDecoration(

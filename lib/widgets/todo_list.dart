@@ -60,8 +60,6 @@ class _TodolistBuilderState extends State<TodolistBuilder> {
                   if (direction == DismissDirection.startToEnd) {
                     widget.todoList.removeAt(index);
                     widget.updateLocalData();
-                  } else {
-                    print("Mark as done");
                   }
                 }),
                 child: ListTile(
