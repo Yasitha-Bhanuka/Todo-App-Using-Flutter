@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TodolistBuilder extends StatefulWidget {
   List<String> todoList = [];
 
@@ -36,15 +37,22 @@ class _TodolistBuilderState extends State<TodolistBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: widget.todoList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            onTap: () {
-              onItemClicked(index: index);
-            },
-            title: Text(widget.todoList[index]),
-          );
-        });
+    return (widget.todoList.isEmpty)
+        ? const Center(
+            child: Text(
+              "No todos yet!",
+              style: TextStyle(fontSize: 30, color: Colors.red),
+            ),
+          )
+        : ListView.builder(
+            itemCount: widget.todoList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                onTap: () {
+                  onItemClicked(index: index);
+                },
+                title: Text(widget.todoList[index]),
+              );
+            });
   }
 }
