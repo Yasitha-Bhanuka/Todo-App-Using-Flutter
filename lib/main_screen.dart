@@ -3,6 +3,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoapp/add_todo.dart';
 import 'package:todoapp/widgets/todo_list.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key});
@@ -79,7 +80,51 @@ class _MainscreenState extends State<Mainscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const Drawer(child: Text("Drawer Data")),
+        drawer: Drawer(
+            child: Column(
+          children: [
+            Container(
+                color: Colors.blueGrey[900],
+                height: 200, 
+                width: double.infinity,
+                child: const Center(
+                    child: Text(
+                  "Todo App",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ))),
+            ListTile(
+                onTap: () {
+                  launchUrl(Uri.parse(
+                      "https://yasitha-bhanuka.github.io/Yasitha-s-Portfolio/"));
+                },
+                leading: const Icon(FeatherIcons.user),
+                horizontalTitleGap: 30,
+                title: const Text(
+                  "About Me",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+            ListTile(
+                onTap: () {
+                  launchUrl(Uri.parse("mailto:yasithabhanukac@gmail.com"));
+                },
+                leading: const Icon(FeatherIcons.mail),
+                horizontalTitleGap: 30,
+                title: const Text(
+                  "Contact Me",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+          ],
+        )),
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Todo App'),
