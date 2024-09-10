@@ -68,16 +68,25 @@ class _MainscreenState extends State<Mainscreen> {
             itemCount: todoList.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
+                onTap: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(20),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  todoList.removeAt(index);
+                                });
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Mark as done!")),
+                        );
+                      });
+                },
                 title: Text(todoList[index]),
-                leading: const Icon(FeatherIcons.checkCircle),
-                trailing: IconButton(
-                  icon: const Icon(FeatherIcons.trash),
-                  onPressed: () {
-                    setState(() {
-                      todoList.removeAt(index);
-                    });
-                  },
-                ),
               );
             }));
   }
