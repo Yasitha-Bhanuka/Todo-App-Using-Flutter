@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todoapp/add_todo.dart';
+import 'package:todoapp/widgets/todo_list.dart';
 
 class Mainscreen extends StatefulWidget {
   const Mainscreen({super.key});
@@ -60,6 +61,21 @@ class _MainscreenState extends State<Mainscreen> {
     super.initState();
   }
 
+  void displayModelBottomSheet() {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              height: 300,
+              child: AddTodo(addTodo: addTodo),
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,33 +87,10 @@ class _MainscreenState extends State<Mainscreen> {
             InkWell(
               splashColor: Colors.green,
               onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (context) {
-                      return Padding(
-                        padding: MediaQuery.of(context).viewInsets,
-                        child: Container(
-                          padding: const EdgeInsets.all(20),
-                          height: 300,
-                          child: AddTodo(addTodo: addTodo),
-                        ),
-                      );
-                    });
+                displayModelBottomSheet();
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
-                // GestureDetector is used to detect the tap on the Icon
-                // child: GestureDetector(
-                //   onTap: () {
-                //     print('Plus Icon Clicked!');
-                //   },
-                //   child: Icon(
-                //     FeatherIcons.plus,
-                //   ),
-                // ),
-
-                // InkWell is used to detect the tap on the Icon. It is similar to GestureDetector. Its provide visual feedback when the user interacts with the widget.
-
                 child: Icon(
                   FeatherIcons.plus,
                 ),
@@ -105,31 +98,7 @@ class _MainscreenState extends State<Mainscreen> {
             ),
           ],
         ),
-        body: ListView.builder(
-            itemCount: todoList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                onTap: () {
-                  showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(20),
-                          child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  todoList.removeAt(index);
-                                });
-                                updateLocalData();
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Mark as done!")),
-                        );
-                      });
-                },
-                title: Text(todoList[index]),
-              );
-            }));
+        body: TodolistBuilder(
+            todoList: todoList, updateLocalData: updateLocalData));
   }
 }
